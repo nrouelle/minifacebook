@@ -1,4 +1,4 @@
-﻿namespace MiniFacebook.Domain;
+﻿namespace MiniFacebook.Domain.Entities;
 
 public class User
 {

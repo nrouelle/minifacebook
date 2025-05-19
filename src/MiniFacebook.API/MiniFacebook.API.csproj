@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.5" />
   </ItemGroup>
@@ -8,10 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MiniFacebook.Application\MiniFacebook.Application.csproj" />
     <ProjectReference Include="..\MiniFacebook.Infrastructure\MiniFacebook.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Endpoints\" />
   </ItemGroup>
 
   <PropertyGroup>

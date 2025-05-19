@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MiniFacebook.Domain;
 using MiniFacebook.Domain.Entities;
-using System.Collections.Generic;
 
 namespace MiniFacebook.Infrastructure.Data;
 
@@ -11,4 +9,14 @@ public class AppDbContext : DbContext
         : base(options) { }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<Post> Posts => Set<Post>();
+    public DbSet<Comment> Comments => Set<Comment>();
+    public DbSet<Like> Likes => Set<Like>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Relations, Indexes, etc.
+    }
 }

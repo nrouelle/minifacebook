@@ -1,6 +1,6 @@
 ﻿using MiniFacebook.Domain.Entities;
 
-namespace MiniFacebook.Application.Interfaces;
+namespace MiniFacebook.Domain.Interfaces;
 
 public interface IUserRepository
 {

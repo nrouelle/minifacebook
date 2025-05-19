@@ -1,7 +1,6 @@
 using MiniFacebook.Application.DTOs;
-using MiniFacebook.Application.Interfaces;
+using MiniFacebook.Domain.Interfaces;
 using MiniFacebook.Domain.Entities;
-using Org.BouncyCastle.Crypto.Generators;
 
 namespace MiniFacebook.Application.Services;
 

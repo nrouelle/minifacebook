@@ -1,10 +1,9 @@
-using MiniFacebook.Application.Interfaces;
 using MiniFacebook.Application.DTOs;
 using MiniFacebook.Application.Services;
 using MiniFacebook.Infrastructure.Data;
 using MiniFacebook.Infrastructure.Repositories;
-using System;
 using Microsoft.EntityFrameworkCore;
+using MiniFacebook.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

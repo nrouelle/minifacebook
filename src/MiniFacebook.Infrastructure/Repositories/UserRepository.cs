@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MiniFacebook.Application.Interfaces;
+using MiniFacebook.Domain.Interfaces;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Infrastructure.Data;
 

@@ -23,5 +23,8 @@ var app = builder.Build();
 
 app.MapAuthEndpoints();
 app.MapPostEndpoints();
+app.MapCommentEndpoints();
+app.MapLikeEndpoints();
+app.MapUserEndpoints();
 
 app.Run();

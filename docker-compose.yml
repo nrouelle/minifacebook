@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: mini_facebook_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: MiniFacebookDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mini_facebook_api
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=MiniFacebookDb;Username=admin;Password=secret"
+      Jwt__Key: "VOTRE_CLÉ_SECRÈTE_TRES_LONGUE"
+      Jwt__Issuer: "MiniFacebookApi"
+      Jwt__Audience: "MiniFacebookClient"
+      Jwt__ExpireMinutes: "60"
+
+volumes:
+  pgdata:

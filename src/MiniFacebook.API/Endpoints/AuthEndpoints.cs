@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniFacebook.Application.DTOs;
 using MiniFacebook.Domain.Entities;
+using MiniFacebook.Domain.Interfaces;
 using MiniFacebook.Infrastructure.Data;
 
 namespace MiniFacebook.API.Endpoints
@@ -11,7 +12,7 @@ namespace MiniFacebook.API.Endpoints
         {
             var group = app.MapGroup("/api/auth");
 
-            group.MapPost("/register", async (UserRegisterDto dto, AppDbContext db) =>
+            group.MapPost("/register", async (UserRegisterDto dto, IUserRepository userRepository) =>
             {
                 var user = new User
                 {
@@ -20,18 +21,17 @@ namespace MiniFacebook.API.Endpoints
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
                 };
 
-                db.Users.Add(user);
-                await db.SaveChangesAsync();
+                await userRepository.CreateAsync(user);
 
                 return Results.Ok(new { user.Id, user.FullName, user.Email });
             });
 
             group.MapPost("/login", async (
                 UserLoginDto dto, 
-                AppDbContext db,
+                IUserRepository userRepository,
                 IJwtTokenGenerator tokenGen) =>
             {
-                var user = await db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+                var user = await userRepository.GetByEmailAsync(dto.Email);
                 if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                     return Results.Unauthorized();
 

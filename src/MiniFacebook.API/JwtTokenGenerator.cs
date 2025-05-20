@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using MiniFacebook.Application;
 using MiniFacebook.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

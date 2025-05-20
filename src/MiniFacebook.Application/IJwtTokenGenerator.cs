@@ -1,6 +1,6 @@
 ﻿using MiniFacebook.Domain.Entities;
 
-namespace MiniFacebook.API
+namespace MiniFacebook.Application
 {
     public interface IJwtTokenGenerator
     {

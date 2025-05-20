@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MiniFacebook.Application.DTOs;
 using MiniFacebook.Infrastructure.Data;
+using System.Security.Claims;
 
 namespace MiniFacebook.API.Endpoints
 {
@@ -47,6 +48,13 @@ namespace MiniFacebook.API.Endpoints
 
                 return Results.Ok(users);
             });
+
+            group.MapGet("/me", (ClaimsPrincipal user) =>
+            {
+                var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+                return Results.Ok(new { userId });
+            }).RequireAuthorization();
+
         }
     }
 

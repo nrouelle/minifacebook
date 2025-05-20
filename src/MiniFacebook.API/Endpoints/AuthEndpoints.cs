@@ -26,14 +26,17 @@ namespace MiniFacebook.API.Endpoints
                 return Results.Ok(new { user.Id, user.FullName, user.Email });
             });
 
-            group.MapPost("/login", async (UserLoginDto dto, AppDbContext db) =>
+            group.MapPost("/login", async (
+                UserLoginDto dto, 
+                AppDbContext db,
+                IJwtTokenGenerator tokenGen) =>
             {
                 var user = await db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
                 if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                     return Results.Unauthorized();
 
-                // TODO: JWT token
-                return Results.Ok(new { user.Id, user.FullName, user.Email });
+                var token = tokenGen.GenerateToken(user);
+                return Results.Ok(new { token });
             });
         }
     }

@@ -12,6 +12,8 @@ namespace MiniFacebook.API.Endpoints
         {
             var group = app.MapGroup("/api/posts/{postId:guid}/like");
 
+            group.RequireAuthorization();
+
             // Like a post
             group.MapPost("/", async (Guid postId, LikeDto dto, AppDbContext db) =>
             {

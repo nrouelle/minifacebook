@@ -11,6 +11,8 @@ namespace MiniFacebook.API.Endpoints
         {
             var group = app.MapGroup("/api/posts/{postId:guid}/comments");
 
+            group.RequireAuthorization();
+
             // Get comments for a post
             group.MapGet("/", async (Guid postId, AppDbContext db) =>
             {

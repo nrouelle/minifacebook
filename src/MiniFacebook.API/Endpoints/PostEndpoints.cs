@@ -11,6 +11,8 @@ namespace MiniFacebook.API.Endpoints
         {
             var group = app.MapGroup("/api/posts");
 
+            group.RequireAuthorization();
+
             group.MapGet("/", async (AppDbContext db) =>
             {
                 var posts = await db.Posts

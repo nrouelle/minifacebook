@@ -11,6 +11,8 @@ namespace MiniFacebook.API.Endpoints
         {
             var group = app.MapGroup("/api/users");
 
+            group.RequireAuthorization();
+
             // Get a specific user
             group.MapGet("/{id:guid}", async (Guid id, AppDbContext db) =>
             {

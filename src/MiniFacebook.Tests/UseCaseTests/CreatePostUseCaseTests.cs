@@ -4,7 +4,7 @@ using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 using Moq;
 
-namespace MiniFacebook.Tests
+namespace MiniFacebook.Tests.UseCaseTests
 {
     public class CreatePostUseCaseTests
     {

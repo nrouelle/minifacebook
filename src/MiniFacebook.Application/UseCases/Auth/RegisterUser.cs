@@ -1,5 +1,4 @@
 ﻿using MiniFacebook.Domain.Entities;
-using Org.BouncyCastle.Crypto.Generators;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Auth

@@ -1,4 +1,5 @@
-﻿using MiniFacebook.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 using MiniFacebook.Infrastructure.Data;
 
@@ -17,6 +18,26 @@ namespace MiniFacebook.Infrastructure.Repositories
         {
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Post>> GetAllAsync()
+        {
+            var postList = _context.Posts;
+            return await Task.FromResult(postList
+                .Include(p => p.Author)
+                .Include(p => p.Comments)
+                .Include(p => p.Likes).ToList());
+        }
+
+        public Task<Post?> GetByIdAsync(Guid postId)
+        {
+            var post = _context.Posts
+                .Include(p => p.Author)
+                .Include(p => p.Comments)
+                .Include(p => p.Likes)
+                .FirstOrDefaultAsync(p => p.Id == postId);
+
+            return post;
         }
     }
 }

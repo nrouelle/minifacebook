@@ -1,4 +1,4 @@
-﻿using MiniFacebook.Application.DTOs;
+﻿using MiniFacebook.Application.DTOs.Posts;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Posts

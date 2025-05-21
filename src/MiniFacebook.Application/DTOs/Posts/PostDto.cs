@@ -1,4 +1,4 @@
-﻿namespace MiniFacebook.Application.DTOs
+﻿namespace MiniFacebook.Application.DTOs.Posts
 {
     public class PostDto
     {

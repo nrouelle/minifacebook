@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MiniFacebook.Application.DTOs;
+﻿using MiniFacebook.Application.DTOs.Posts;
 using MiniFacebook.Domain.Entities;
-using MiniFacebook.Infrastructure.Data;
+using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.API.Endpoints
 {
@@ -13,39 +12,28 @@ namespace MiniFacebook.API.Endpoints
 
             group.RequireAuthorization();
 
-            group.MapGet("/", async (AppDbContext db) =>
+            group.MapGet("/", async (IPostRepository postRepository) =>
             {
-                var posts = await db.Posts
-                    .Include(p => p.Author)
-                    .Include(p => p.Comments)
-                    .Include(p => p.Likes)
-                    .OrderByDescending(p => p.CreatedAt)
-                    .ToListAsync();
+                var posts = await postRepository.GetAllAsync();
 
                 return Results.Ok(posts);
             });
 
-            group.MapPost("/", async (CreatePostDto dto, AppDbContext db) =>
+            group.MapPost("/", async (CreatePostDto dto, IPostRepository postRepository) =>
             {
-                var post = new Post
-                {
-                    Content = dto.Content,
-                    ImageUrl = dto.ImageUrl,
-                    AuthorId = dto.AuthorId
-                };
-
-                db.Posts.Add(post);
-                await db.SaveChangesAsync();
+                var post = new Post();
+                post.Create(dto.AuthorId, dto.Content);
+                
+                await postRepository.AddAsync(post);
 
                 return Results.Created($"/api/posts/{post.Id}", post);
             });
 
-            group.MapDelete("/{id:guid}", async (Guid id, AppDbContext db) =>
+            group.MapDelete("/{id:guid}", async (Guid id, IPostRepository postRepository) =>
             {
-                var post = await db.Posts.FindAsync(id);
+                var post = await postRepository.GetByIdAsync(id);
                 if (post == null) return Results.NotFound();
-                db.Posts.Remove(post);
-                await db.SaveChangesAsync();
+                await postRepository.DeleteAsync(post);
                 return Results.NoContent();
             });
         }

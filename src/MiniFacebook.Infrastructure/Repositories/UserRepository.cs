@@ -19,6 +19,11 @@ namespace MiniFacebook.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public Task<bool> ExistsAsync(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);

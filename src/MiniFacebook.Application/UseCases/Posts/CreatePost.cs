@@ -1,4 +1,4 @@
-﻿using MiniFacebook.Application.DTOs;
+﻿using MiniFacebook.Application.DTOs.Posts;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 
@@ -7,10 +7,12 @@ namespace MiniFacebook.Application.UseCases.Posts
     public class CreatePost
     {
         private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
 
-        public CreatePost(IPostRepository postRepository)
+        public CreatePost(IPostRepository postRepository, IUserRepository userRepository)
         {
             _postRepository = postRepository;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -20,13 +22,15 @@ namespace MiniFacebook.Application.UseCases.Posts
         /// <returns>The created post.</returns>
         public async Task<Post> ExecuteAsync(CreatePostDto dto)
         {
-            var post = new Post
-            {
-                Id = Guid.NewGuid(),
-                AuthorId = dto.AuthorId,
-                Content = dto.Content,
-                CreatedAt = DateTime.UtcNow
-            };
+            var userExists = await _userRepository.ExistsAsync(dto.AuthorId);
+            if (!userExists)
+                throw new InvalidOperationException("Author not found");
+
+            if (string.IsNullOrWhiteSpace(dto.Content))
+                throw new ArgumentException("Content cannot be empty");
+
+            var post = new Post();
+            post.Create(dto.AuthorId, dto.Content);
 
             await _postRepository.AddAsync(post);
             return post;

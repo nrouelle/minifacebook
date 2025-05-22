@@ -21,8 +21,8 @@ namespace MiniFacebook.API.Endpoints
 
             group.MapPost("/", async (CreatePostDto dto, IPostRepository postRepository) =>
             {
-                var post = new Post();
-                post.Create(dto.AuthorId, dto.Content);
+                var post = new Post(dto.AuthorId, dto.Content);
+                post.Create();
                 
                 await postRepository.AddAsync(post);
 

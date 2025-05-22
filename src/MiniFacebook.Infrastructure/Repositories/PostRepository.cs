@@ -23,7 +23,7 @@ public class PostRepository : IPostRepository
 
     public async Task<IEnumerable<Post>> GetAllAsync()
     {
-        var entities = await _context.Posts.ToListAsync();
+        var entities = await _context.Posts.Include(p => p.Author).ToListAsync();
         return entities.Select(PostMapper.ToDomain);
     }
 

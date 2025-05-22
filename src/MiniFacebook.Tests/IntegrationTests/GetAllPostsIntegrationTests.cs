@@ -17,8 +17,8 @@ namespace MiniFacebook.Tests.IntegrationTests
                 .Options;
 
             using var context = new AppDbContext(options);
-            var post1 = new Post(Guid.NewGuid(), Guid.NewGuid(), "Post 1", DateTime.UtcNow);
-            var post2 = new Post(Guid.NewGuid(), Guid.NewGuid(), "Post 2", DateTime.UtcNow);
+            var post1 = new Post(Guid.NewGuid(), Guid.NewGuid(), "Nadege", "Post 1", DateTime.UtcNow);
+            var post2 = new Post(Guid.NewGuid(), Guid.NewGuid(), "Batiste", "Post 2", DateTime.UtcNow);
 
             var repo = new PostRepository(context);
             await repo.AddAsync(post1);

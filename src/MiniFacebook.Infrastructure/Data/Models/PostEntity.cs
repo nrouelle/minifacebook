@@ -9,13 +9,12 @@ public class PostEntity
     public Guid Id { get; set; }
 
     [Required]
-    public Guid UserId { get; set; }
+    public Guid AuthorId { get; set; }
 
     [Required]
     public string Content { get; set; } = string.Empty;
 
     public DateTime CreatedAt { get; set; }
 
-    // Navigation si besoin
-    // public UserEntity? User { get; set; }
+    public UserEntity? Author { get; set; }
 }

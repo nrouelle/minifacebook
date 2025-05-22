@@ -29,8 +29,8 @@ namespace MiniFacebook.Application.UseCases.Posts
             if (string.IsNullOrWhiteSpace(dto.Content))
                 throw new ArgumentException("Content cannot be empty");
 
-            var post = new Post();
-            post.Create(dto.AuthorId, dto.Content);
+            var post = new Post(dto.AuthorId, dto.Content);
+            post.Create();
 
             await _postRepository.AddAsync(post);
             return post;

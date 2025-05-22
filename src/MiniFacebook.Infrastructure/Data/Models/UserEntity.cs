@@ -12,14 +12,19 @@ namespace MiniFacebook.Infrastructure.Data.Models
             CreatedAt = createdAt;
         }
 
+        public UserEntity()
+        {
+            
+        }
+
         [Key]
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
 
         // Navigation
         public ICollection<PostEntity> Posts { get; set; } = new List<PostEntity>();
-        public string FullName { get; }
-        public DateTime CreatedAt { get; }
+        public string FullName { get; set; }
+        public DateTime CreatedAt { get; set;  }
         //public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
         //public ICollection<LikeEntity> Likes { get; set; } = new List<LikeEntity>();
     }

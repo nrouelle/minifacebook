@@ -11,13 +11,14 @@ public class AppDbContext : DbContext
 
     public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<PostEntity> Posts => Set<PostEntity>();
-    public DbSet<Comment> Comments => Set<Comment>();
-    public DbSet<Like> Likes => Set<Like>();
+    //public DbSet<Comment> Comments => Set<Comment>();
+    //public DbSet<Like> Likes => Set<Like>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         // Relations, Indexes, etc.
+        
     }
 }

@@ -11,7 +11,7 @@ namespace MiniFacebook.API.Endpoints
             group.RequireAuthorization();
 
             // Get a specific user
-            group.MapGet("/{email:string}", async (string email, IUserRepository userRepository) =>
+            group.MapGet("/{email}", async (string email, IUserRepository userRepository) =>
             {
                 var user = await userRepository.GetByEmailAsync(email);
 

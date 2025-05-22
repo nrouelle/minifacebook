@@ -35,7 +35,6 @@ namespace MiniFacebook.Application.UseCases.Auth
             // Build response
             return new LoginResponse
             {
-                UserId = user.Id,
                 FullName = user.FullName,
                 Email = user.Email,
                 Token = token

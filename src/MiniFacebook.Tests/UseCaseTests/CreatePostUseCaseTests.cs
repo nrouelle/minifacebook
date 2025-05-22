@@ -14,12 +14,15 @@ namespace MiniFacebook.Tests.UseCaseTests
             // Arrange
             var mockRepo = new Mock<IPostRepository>();
             var mockUserRepo = new Mock<IUserRepository>();
-            mockUserRepo.Setup(r => r.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            mockUserRepo.Setup(r => r.ExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
+            mockUserRepo.Setup(r => r.GetByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(new User("name", "email@mail.fr", ""));
+
             var useCase = new CreatePost(mockRepo.Object, mockUserRepo.Object);
 
-            var authorId = Guid.NewGuid();
+            var authorEmail = "email@mail.fr";
             var content = "Hello world!";
-            var dto = new CreatePostDto(content, authorId);
+            var dto = new CreatePostDto(content, authorEmail);
 
             Post? capturedPost = null;
             mockRepo.Setup(r => r.AddAsync(It.IsAny<Post>()))
@@ -31,14 +34,14 @@ namespace MiniFacebook.Tests.UseCaseTests
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(authorId, result.AuthorId);
+            Assert.Equal(authorEmail, result.Author.Email);
             Assert.Equal(content, result.Content);
             mockRepo.Verify(r => r.AddAsync(It.IsAny<Post>()), Times.Once);
 
             // Optionally check the exact object passed to repo
             Assert.NotNull(capturedPost);
             Assert.Equal(dto.Content, capturedPost!.Content);
-            Assert.Equal(dto.AuthorId, capturedPost.AuthorId);
+            Assert.Equal(dto.AuthorEmail, capturedPost.Author.Email);
         }
 
         [Fact]
@@ -47,11 +50,13 @@ namespace MiniFacebook.Tests.UseCaseTests
             // Arrange
             var mockRepo = new Mock<IPostRepository>();
             var mockUserRepo = new Mock<IUserRepository>();
-            mockUserRepo.Setup(r => r.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            mockUserRepo.Setup(r => r.ExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
+            mockUserRepo.Setup(r => r.GetByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync(new User("name", "email@mail.fr", ""));
 
             var useCase = new CreatePost(mockRepo.Object, mockUserRepo.Object);
 
-            var dto = new CreatePostDto(string.Empty, Guid.NewGuid());
+            var dto = new CreatePostDto(string.Empty, string.Empty);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(dto));
@@ -65,11 +70,11 @@ namespace MiniFacebook.Tests.UseCaseTests
             var mockPostRepo = new Mock<IPostRepository>();
             var mockUserRepo = new Mock<IUserRepository>();
 
-            mockUserRepo.Setup(r => r.ExistsAsync(It.IsAny<Guid>())).ReturnsAsync(false);
+            mockUserRepo.Setup(r => r.ExistsAsync(It.IsAny<string>())).ReturnsAsync(false);
 
             var useCase = new CreatePost(mockPostRepo.Object, mockUserRepo.Object);
 
-            var dto = new CreatePostDto("Valid content", Guid.NewGuid());
+            var dto = new CreatePostDto("Valid content", string.Empty);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => useCase.ExecuteAsync(dto));

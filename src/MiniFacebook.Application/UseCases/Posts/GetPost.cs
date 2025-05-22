@@ -25,8 +25,8 @@ namespace MiniFacebook.Application.UseCases.Posts
 
             return new PostDto
             {
-                Id = post.Id,
-                AuthorId = post.AuthorId,
+                Id = post.Id.Value,
+                Author = post.Author.FullName,
                 Content = post.Content,
                 CreatedAt = post.CreatedAt
             };

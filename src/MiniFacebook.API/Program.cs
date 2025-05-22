@@ -1,5 +1,3 @@
-using MiniFacebook.Application.DTOs;
-using MiniFacebook.Application.Services;
 using MiniFacebook.Infrastructure.Data;
 using MiniFacebook.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -82,7 +80,6 @@ builder.Services.AddSwaggerGen(options =>
 // DI
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
-builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 

@@ -15,8 +15,8 @@ namespace MiniFacebook.Tests.UseCaseTests
 
             var posts = new List<Post>
             {
-                new Post(Guid.NewGuid(), Guid.NewGuid(), new("First post"), DateTime.UtcNow),
-                new Post(Guid.NewGuid(), Guid.NewGuid(), new("Second post"), DateTime.UtcNow)
+                new Post(new User("name","",""), new("First post")),
+                new Post(new User("name","",""), new("Second post"))
             };
 
             mockRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(posts);

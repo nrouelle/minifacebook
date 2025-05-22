@@ -5,23 +5,22 @@ namespace MiniFacebook.Infrastructure.Mappers;
 
 public static class PostMapper
 {
-    public static PostEntity ToEntity(Post domain)
+    public static PostEntity ToEntity(Post post)
     {
         return new PostEntity
         {
-            Id = domain.Id,
-            AuthorId = domain.AuthorId,
-            Content = domain.Content,
-            CreatedAt = domain.CreatedAt
+            Id = post.Id.Value,
+            AuthorId = post.Author.Email,
+            Content = post.Content,
+            CreatedAt = post.CreatedAt
         };
     }
 
     public static Post ToDomain(PostEntity entity)
     {
         return new Post(
-            entity.Id,
-            entity.AuthorId,
-            entity.Author?.UserName ?? string.Empty,
+            new PostId(entity.Id),
+            UserMapper.ToDomain(entity.Author),
             entity.Content,
             entity.CreatedAt
         );

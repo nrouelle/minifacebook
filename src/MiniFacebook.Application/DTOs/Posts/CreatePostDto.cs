@@ -1,5 +1,5 @@
 ﻿namespace MiniFacebook.Application.DTOs.Posts
 {
-    public record CreatePostDto(string Content, Guid AuthorId);
+    public record CreatePostDto(string Content, string AuthorEmail);
 
 }

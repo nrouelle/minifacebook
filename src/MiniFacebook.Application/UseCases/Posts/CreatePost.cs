@@ -22,15 +22,14 @@ namespace MiniFacebook.Application.UseCases.Posts
         /// <returns>The created post.</returns>
         public async Task<Post> ExecuteAsync(CreatePostDto dto)
         {
-            var userExists = await _userRepository.ExistsAsync(dto.AuthorId);
-            if (!userExists)
+            var author = await _userRepository.GetByEmailAsync(dto.AuthorEmail);
+            if (author == null)
                 throw new InvalidOperationException("Author not found");
 
             if (string.IsNullOrWhiteSpace(dto.Content))
                 throw new ArgumentException("Content cannot be empty");
 
-            var post = new Post(dto.AuthorId, dto.Content);
-            post.Create();
+            var post = new Post(author, dto.Content);
 
             await _postRepository.AddAsync(post);
             return post;

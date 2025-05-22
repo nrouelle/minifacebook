@@ -2,43 +2,26 @@
 {
     public class Post
     {
-        public Guid Id { get; internal set; }
-        public Guid AuthorId { get; private set; }
-        public string AuthorName { get; private set; } = string.Empty;
-
+        public PostId Id { get; internal set; }
+        public User Author { get; private set; }
         public string Content { get; internal set; } = string.Empty;
         public DateTime CreatedAt { get; internal set; }
 
-        public Post()
+        public Post(User author, string content)
         {
-        }
-
-        public Post(Guid authorId, string content)
-        {
-            if (authorId == Guid.Empty)
-                throw new ArgumentException("AuthorId cannot be empty.", nameof(authorId));
             if (string.IsNullOrEmpty(content))
                 throw new ArgumentException("Content cannot be empty.", nameof(content));
-
-            AuthorId = authorId;
+            Id = new PostId(Guid.NewGuid());
+            Author = author;
             Content = content;
         }
 
-        public Post(Guid id, Guid authorId, string authorName, string content, DateTime createdAt)
+        public Post(PostId id, User author, string content, DateTime createdAt)
         {
             Id = id;
-            AuthorId = authorId;
-            AuthorName = authorName;
+            Author = author;
             Content = content;
             CreatedAt = createdAt;
-        }
-
-        public void Create()
-        {
-            if (Id != Guid.Empty)
-                throw new InvalidOperationException("Post has already been created.");
-            Id = Guid.NewGuid();
-            CreatedAt = DateTime.UtcNow;
         }
 
         public void EditContent(string newContent)
@@ -48,5 +31,25 @@
             
             Content = newContent;
         }
+    }
+
+    public sealed class PostId
+    {
+        public Guid Value { get; }
+
+        public PostId(Guid value)
+        {
+            if (value == Guid.Empty)
+                throw new ArgumentException("PostId cannot be null or empty", nameof(value));
+
+            Value = value;
+        }
+
+        public override string ToString() => Value.ToString();
+
+        public override bool Equals(object obj) =>
+            obj is PostId other && Value == other.Value;
+
+        public override int GetHashCode() => Value.GetHashCode();
     }
 }

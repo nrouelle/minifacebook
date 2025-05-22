@@ -1,14 +1,25 @@
-﻿namespace MiniFacebook.Infrastructure.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MiniFacebook.Infrastructure.Data.Models
 {
     public class UserEntity
     {
-        public Guid Id { get; set; }
-        public string UserName { get; set; } = string.Empty;
+        public UserEntity(string fullName, string email, string passwordHash, DateTime createdAt)
+        {
+            FullName = fullName;
+            Email = email;
+            PasswordHash = passwordHash;
+            CreatedAt = createdAt;
+        }
+
+        [Key]
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
 
         // Navigation
         public ICollection<PostEntity> Posts { get; set; } = new List<PostEntity>();
+        public string FullName { get; }
+        public DateTime CreatedAt { get; }
         //public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
         //public ICollection<LikeEntity> Likes { get; set; } = new List<LikeEntity>();
     }

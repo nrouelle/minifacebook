@@ -19,10 +19,13 @@ namespace MiniFacebook.API.Endpoints
                 return Results.Ok(posts);
             });
 
-            group.MapPost("/", async (CreatePostDto dto, IPostRepository postRepository) =>
+            group.MapPost("/", async (CreatePostDto dto, IPostRepository postRepository, IUserRepository userRepository) =>
             {
-                var post = new Post(dto.AuthorId, dto.Content);
-                post.Create();
+                var author = await userRepository.GetByEmailAsync(dto.AuthorEmail);
+                if(author == null) 
+                    return Results.NotFound("User not found");
+                
+                var post = new Post(author, dto.Content);
                 
                 await postRepository.AddAsync(post);
 

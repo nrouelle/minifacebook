@@ -2,6 +2,7 @@
 using MiniFacebook.Domain.Interfaces;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Infrastructure.Data;
+using MiniFacebook.Infrastructure.Mappers;
 
 namespace MiniFacebook.Infrastructure.Repositories
 {
@@ -15,23 +16,22 @@ namespace MiniFacebook.Infrastructure.Repositories
 
         public async Task CreateAsync(User user)
         {
-            _context.Users.Add(user);
+            var entity = UserMapper.ToEntity(user);
+            _context.Users.Add(entity);
             await _context.SaveChangesAsync();
         }
 
-        public Task<bool> ExistsAsync(Guid userId)
+        public Task<bool> ExistsAsync(string userEmail)
         {
             throw new NotImplementedException();
         }
 
         public async Task<User?> GetByEmailAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-        }
-
-        public async Task<User?> GetByIdAsync(Guid id)
-        {
-            return await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email);
+            return UserMapper.ToDomain(user);
         }
     }
 }

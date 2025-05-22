@@ -14,15 +14,15 @@ namespace MiniFacebook.API.Endpoints
             group.MapPost("/register", async (UserRegisterDto dto, IUserRepository userRepository) =>
             {
                 var user = new User
-                {
-                    FullName = dto.FullName,
-                    Email = dto.Email,
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
-                };
+                (
+                    dto.FullName,
+                    dto.Email,
+                    BCrypt.Net.BCrypt.HashPassword(dto.Password)
+                );
 
                 await userRepository.CreateAsync(user);
 
-                return Results.Ok(new { user.Id, user.FullName, user.Email });
+                return Results.Ok(new { user.FullName, user.Email });
             });
 
             group.MapPost("/login", async (

@@ -1,6 +1,6 @@
-using MiniFacebook.Application.DTOs;
 using MiniFacebook.Domain.Interfaces;
 using MiniFacebook.Domain.Entities;
+using MiniFacebook.Application.DTOs.Auth;
 
 namespace MiniFacebook.Application.Services;
 

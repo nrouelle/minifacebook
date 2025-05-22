@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MiniFacebook.Application;
-using MiniFacebook.Application.DTOs;
+﻿using MiniFacebook.Application;
+using MiniFacebook.Application.DTOs.Auth;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
-using MiniFacebook.Infrastructure.Data;
 
 namespace MiniFacebook.API.Endpoints
 {

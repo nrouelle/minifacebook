@@ -1,4 +1,4 @@
-﻿using MiniFacebook.Application.DTOs;
+﻿using MiniFacebook.Application.DTOs.Auth;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Auth

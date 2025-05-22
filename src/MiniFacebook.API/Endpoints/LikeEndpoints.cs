@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MiniFacebook.Application.DTOs;
+using MiniFacebook.Application.DTOs.Likes;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Infrastructure.Data;
 

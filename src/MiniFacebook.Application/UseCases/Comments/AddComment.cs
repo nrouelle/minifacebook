@@ -1,4 +1,4 @@
-﻿using MiniFacebook.Application.DTOs;
+﻿using MiniFacebook.Application.DTOs.Comments;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 

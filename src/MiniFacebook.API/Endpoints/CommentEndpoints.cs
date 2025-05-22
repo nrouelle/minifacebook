@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MiniFacebook.Application.DTOs;
+using MiniFacebook.Application.DTOs.Comments;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Infrastructure.Data;
 
@@ -26,13 +26,13 @@ namespace MiniFacebook.API.Endpoints
             });
 
             // Create a comment on a post
-            group.MapPost("/", async (Guid postId, CreateCommentDto dto, AppDbContext db) =>
+            group.MapPost("/", async (Guid postId, AddCommentDto dto, AppDbContext db) =>
             {
                 var comment = new Comment
                 {
                     PostId = postId,
-                    Text = dto.Text,
-                    AuthorId = dto.AuthorId
+                    Text = dto.Content,
+                    AuthorId = dto.UserId
                 };
 
                 db.Comments.Add(comment);

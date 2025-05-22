@@ -1,8 +1,6 @@
-﻿namespace MiniFacebook.Application.DTOs;
+﻿namespace MiniFacebook.Application.DTOs.Comments;
 
-public class AddCommentDto
+public record AddCommentDto(Guid PostId, Guid UserId)
 {
-    public Guid PostId { get; set; }
-    public Guid UserId { get; set; }
     public string Content { get; set; } = string.Empty;
 }

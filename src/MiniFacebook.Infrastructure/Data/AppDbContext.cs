@@ -10,13 +10,32 @@ public class AppDbContext : DbContext
 
     public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<PostEntity> Posts => Set<PostEntity>();
-    
+
+    public DbSet<SubscriptionEntity> Subscriptions => Set<SubscriptionEntity>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Relations, Indexes, etc.
-        
+        modelBuilder.Entity<UserEntity>().HasKey(s => s.Email);
+
+        modelBuilder.Entity<SubscriptionEntity>()
+            .HasKey(s => new { s.SubscriberEmail, s.SubscribedToEmail });
+
+        modelBuilder.Entity<SubscriptionEntity>()
+        .HasOne(s => s.Subscriber)
+        .WithMany() // ou `.WithMany(u => u.Subscriptions)` si tu veux une collection
+        .HasForeignKey(s => s.SubscriberEmail)
+        .HasPrincipalKey(u => u.Email)  // <- lien vers le champ Email du User
+        .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<SubscriptionEntity>()
+            .HasOne(s => s.SubscribedTo)
+            .WithMany()
+            .HasForeignKey(s => s.SubscribedToEmail)
+            .HasPrincipalKey(u => u.Email)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 
     public void Seed()

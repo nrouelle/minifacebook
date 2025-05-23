@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // EF Core
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseInMemoryDatabase("MiniFacebookDB"));
+    opt.UseInMemoryDatabase("MiniFacebookDB1"));
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -97,8 +97,8 @@ app.UseSwaggerUI(c =>
 
 app.MapAuthEndpoints();
 app.MapPostEndpoints();
-app.MapCommentEndpoints();
-app.MapLikeEndpoints();
+//app.MapCommentEndpoints();
+//app.MapLikeEndpoints();
 app.MapUserEndpoints();
 
 app.Run();

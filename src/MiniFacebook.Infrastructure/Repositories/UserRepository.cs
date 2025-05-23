@@ -31,6 +31,8 @@ namespace MiniFacebook.Infrastructure.Repositories
             var user = await _context.Users
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email);
+            if(user == null) return null;
+
             return UserMapper.ToDomain(user);
         }
     }

@@ -18,4 +18,30 @@ public class AppDbContext : DbContext
         // Relations, Indexes, etc.
         
     }
+
+    public void Seed()
+    {
+        if (Users.Any() || Posts.Any()) return;
+
+        var users = new List<UserEntity>
+        {
+            new UserEntity { FullName = "alice", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), Email = "alice@example.com" },
+            new UserEntity { FullName = "bob", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), Email = "bob@example.com" },
+            new UserEntity { FullName = "carol", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), Email = "carol@example.com" }
+        };
+
+        Users.AddRange(users);
+        SaveChanges();
+
+        var posts = users.SelectMany(user => new[]
+        {
+            new PostEntity { Id = Guid.NewGuid(), AuthorId = user.Email, Content = $"Post 1 by {user.FullName}", CreatedAt = DateTime.UtcNow },
+            new PostEntity { Id = Guid.NewGuid(), AuthorId = user.Email, Content = $"Post 2 by {user.FullName}", CreatedAt = DateTime.UtcNow },
+            new PostEntity { Id = Guid.NewGuid(), AuthorId = user.Email, Content = $"Post 3 by {user.FullName}", CreatedAt = DateTime.UtcNow },
+            new PostEntity { Id = Guid.NewGuid(), AuthorId = user.Email, Content = $"Post 4 by {user.FullName}", CreatedAt = DateTime.UtcNow },
+        });
+
+        Posts.AddRange(posts);
+        SaveChanges();
+    }
 }

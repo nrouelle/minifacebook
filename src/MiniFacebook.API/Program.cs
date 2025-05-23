@@ -18,7 +18,6 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
 // Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -94,11 +93,15 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mini Facebook API v1");
 });
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated(); // Crée la base si elle n’existe pas
+    db.Seed(); // Ajoute les données uniquement si nécessaire
+}
 
 app.MapAuthEndpoints();
 app.MapPostEndpoints();
-//app.MapCommentEndpoints();
-//app.MapLikeEndpoints();
 app.MapUserEndpoints();
 
 app.Run();

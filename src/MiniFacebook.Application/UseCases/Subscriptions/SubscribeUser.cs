@@ -2,7 +2,7 @@
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 
-namespace MiniFacebook.Application.UseCases.Users
+namespace MiniFacebook.Application.UseCases.Subscriptions
 {
     public class SubscribeUser
     {

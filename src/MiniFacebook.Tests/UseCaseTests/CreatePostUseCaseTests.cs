@@ -34,7 +34,7 @@ namespace MiniFacebook.Tests.UseCaseTests
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(authorEmail, result.Author.Email);
+            Assert.Equal(authorEmail, result.Author);
             Assert.Equal(content, result.Content);
             mockRepo.Verify(r => r.AddAsync(It.IsAny<Post>()), Times.Once);
 

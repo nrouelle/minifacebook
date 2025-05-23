@@ -20,7 +20,7 @@ namespace MiniFacebook.Application.UseCases.Posts
         /// </summary>
         /// <param name="dto">The data required to create a post.</param>
         /// <returns>The created post.</returns>
-        public async Task<Post> ExecuteAsync(CreatePostDto dto)
+        public async Task<PostDto> ExecuteAsync(CreatePostDto dto)
         {
             var author = await _userRepository.GetByEmailAsync(dto.AuthorEmail);
             if (author == null)
@@ -32,7 +32,15 @@ namespace MiniFacebook.Application.UseCases.Posts
             var post = new Post(author, dto.Content);
 
             await _postRepository.AddAsync(post);
-            return post;
+
+            var postCreated = new PostDto
+            {
+                Id = post.Id.Value,
+                Author = post.Author.Email,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt
+            };
+            return postCreated;
         }
     }
 }

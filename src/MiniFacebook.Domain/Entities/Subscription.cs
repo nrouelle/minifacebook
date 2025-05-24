@@ -11,5 +11,10 @@
         public string SubscriberEmail { get; set; }
         public string SubscribedToEmail { get; set; }
         public bool IsValidated { get; set; } = false;
+
+        public void Validate()
+        {
+            IsValidated = true;
+        }
     }
 }

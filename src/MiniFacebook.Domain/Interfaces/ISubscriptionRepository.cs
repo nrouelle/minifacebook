@@ -2,9 +2,11 @@
 
 namespace MiniFacebook.Domain.Interfaces
 {
-    public interface ISubscribeRepository
+    public interface ISubscriptionRepository
     {
+        Task<Subscription?> GetSubscriptionAsync(string subscriberEmail, string subscribedToEmail);
         Task SubscribeAsync(Subscription subscription);
         bool SubscriptionExists(string subscriberEmail, string subscribedToEmail);
+        Task UpdateSubscriptionAsync(object subscription);
     }
 }

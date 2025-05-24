@@ -44,9 +44,9 @@ public class AppDbContext : DbContext
 
         var users = new List<UserEntity>
         {
-            new UserEntity { FullName = "alice", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), Email = "alice@example.com" },
-            new UserEntity { FullName = "bob", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), Email = "bob@example.com" },
-            new UserEntity { FullName = "carol", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123"), Email = "carol@example.com" }
+            new UserEntity { FullName = "alice", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123_Pass"), Email = "alice@example.com" },
+            new UserEntity { FullName = "bob", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123_Pass"), Email = "bob@example.com" },
+            new UserEntity { FullName = "carol", PasswordHash = BCrypt.Net.BCrypt.HashPassword("123_Pass"), Email = "carol@example.com" }
         };
 
         Users.AddRange(users);

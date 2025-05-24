@@ -26,7 +26,7 @@ namespace MiniFacebook.API.Endpoints
                 {
                     var response = await logUserIn.ExecuteAsync(dto);
 
-                    return Results.Ok(new { response });
+                    return Results.Ok(new { FullName = response.FullName, Email = response.Email, Token = response.Token });
                 }
                 catch (Exception)
                 {

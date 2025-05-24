@@ -1,6 +1,5 @@
 ﻿using MiniFacebook.Application.DTOs.Subscriptions;
 using MiniFacebook.Application.UseCases.Subscriptions;
-using MiniFacebook.Application.UseCases.Users;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 using Moq;
@@ -13,7 +12,7 @@ namespace MiniFacebook.Tests.UseCaseTests
         public async Task Should_Subscribe_When_SubscriptionDoesNotExist()
         {
             // Arrange
-            var mockRepo = new Mock<ISubscribeRepository>();
+            var mockRepo = new Mock<ISubscriptionRepository>();
             var dto = new SubscriptionDto
             {
                 SubscriberEmail = "alice@example.com",
@@ -39,7 +38,7 @@ namespace MiniFacebook.Tests.UseCaseTests
         public async Task Should_NotSubscribe_When_SubscriptionAlreadyExists()
         {
             // Arrange
-            var mockRepo = new Mock<ISubscribeRepository>();
+            var mockRepo = new Mock<ISubscriptionRepository>();
             var dto = new SubscriptionDto
             {
                 SubscriberEmail = "alice@example.com",
@@ -62,7 +61,7 @@ namespace MiniFacebook.Tests.UseCaseTests
         public async Task Should_Throw_When_SubscribingToSelf()
         {
             // Arrange
-            var mockRepo = new Mock<ISubscribeRepository>();
+            var mockRepo = new Mock<ISubscriptionRepository>();
             var dto = new SubscriptionDto
             {
                 SubscriberEmail = "user@example.com",
@@ -81,7 +80,7 @@ namespace MiniFacebook.Tests.UseCaseTests
         public async Task Should_Throw_When_EmailsAreEmpty()
         {
             // Arrange
-            var mockRepo = new Mock<ISubscribeRepository>();
+            var mockRepo = new Mock<ISubscriptionRepository>();
             var dto = new SubscriptionDto
             {
                 SubscriberEmail = "",

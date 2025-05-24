@@ -1,10 +1,11 @@
 ﻿using MiniFacebook.Application.DTOs.Posts;
+using MiniFacebook.Application.Interfaces;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Posts
 {
 
-    public class GetAllPosts
+    public class GetAllPosts: IGetAllPosts
     {
         private readonly IPostRepository _postRepository;
 
@@ -20,13 +21,11 @@ namespace MiniFacebook.Application.UseCases.Posts
         {
             var posts = await _postRepository.GetAllAsync();
 
-            return posts.Select(p => new PostDto
-            {
-                Id = p.Id.Value,
-                Author = p.Author.FullName,
-                Content = p.Content,
-                CreatedAt = p.CreatedAt
-            });
+            return posts.Select(p => new PostDto(
+                p.Id.Value,
+                p.Content,
+                new AuthorDto(p.Author.FullName, p.Author.Email),
+                p.CreatedAt)).ToList();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using MiniFacebook.Application.DTOs.Subscriptions;
+using MiniFacebook.Application.Interfaces;
+using MiniFacebook.Application.Interfaces.Users;
+using MiniFacebook.Application.UseCases.Subscriptions;
 using MiniFacebook.Domain.Entities;
-using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.API.Endpoints
 {
@@ -12,18 +14,32 @@ namespace MiniFacebook.API.Endpoints
 
             group.RequireAuthorization();
 
-            group.MapPost("/", async (SubscriptionDto dto, ISubscribeRepository subscribeRepository, IUserRepository userRepository) =>
+            group.MapPost("/", async (SubscriptionDto dto, ISubscribeUser subscribeToUser, ICheckUserExists checkUserExists) =>
             {
-                var userToSubscribeExists = await userRepository.GetByEmailAsync(dto.SubscribedToEmail);
-                if (userToSubscribeExists == null)
+
+                var userToSubscribeExists = await checkUserExists.ExecuteAsync(dto.SubscribedToEmail);
+                if (!userToSubscribeExists)
                     return Results.NotFound("User not found");
 
-                var subscription = new Subscription(dto.SubscriberEmail, dto.SubscribedToEmail);
-
-                await subscribeRepository.SubscribeAsync(subscription);
+                await subscribeToUser.ExecuteAsync(dto);
 
                 return Results.Created();
             });
+
+            app.MapPost("/subscriptions/validate", async (ValidateSubscriptionDto dto, ValidateSubscription validateSubscription) =>
+            {
+                try
+                {
+                    await validateSubscription.ExecuteAsync(dto.SubscriberEmail, dto.SubscribedToEmail);
+                    return Results.Ok(new { message = "Subscription validated." });
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.BadRequest(new { error = ex.Message });
+                }
+            })
+        .WithTags("Subscriptions")
+        .WithName("ValidateSubscription");
         }
     }
 }

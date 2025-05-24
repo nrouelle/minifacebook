@@ -1,10 +1,11 @@
 ﻿using MiniFacebook.Application.DTOs.Posts;
+using MiniFacebook.Application.Interfaces;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Posts
 {
-    public class CreatePost
+    public class CreatePost: ICreatePost
     {
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
@@ -34,12 +35,10 @@ namespace MiniFacebook.Application.UseCases.Posts
             await _postRepository.AddAsync(post);
 
             var postCreated = new PostDto
-            {
-                Id = post.Id.Value,
-                Author = post.Author.Email,
-                Content = post.Content,
-                CreatedAt = post.CreatedAt
-            };
+            (post.Id.Value,
+                post.Content,
+                new AuthorDto(post.Author.FullName, post.Author.Email),
+                post.CreatedAt);
             return postCreated;
         }
     }

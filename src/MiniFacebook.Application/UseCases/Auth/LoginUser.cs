@@ -1,9 +1,10 @@
 ﻿using MiniFacebook.Application.DTOs.Auth;
+using MiniFacebook.Application.Interfaces.Users;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Auth
 {
-    public class LoginUser
+    public class LoginUser: ILogUserIn
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
@@ -20,7 +21,7 @@ namespace MiniFacebook.Application.UseCases.Auth
         /// <param name="dto">Login request data (email and password).</param>
         /// <returns>LoginResponse containing user info and token.</returns>
         /// <exception cref="UnauthorizedAccessException">Thrown when credentials are invalid.</exception>
-        public async Task<LoginResponse> ExecuteAsync(LoginRequest dto)
+        public async Task<LoginResponse> ExecuteAsync(UserLoginDto dto)
         {
             // Retrieve user by email
             var user = await _userRepository.GetByEmailAsync(dto.Email);

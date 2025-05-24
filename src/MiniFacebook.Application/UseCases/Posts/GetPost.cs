@@ -1,9 +1,10 @@
 ﻿using MiniFacebook.Application.DTOs.Posts;
+using MiniFacebook.Application.Interfaces;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Posts
 {
-    public class GetPost
+    public class GetPost: IGetPost
     {
         private readonly IPostRepository _postRepository;
 
@@ -24,12 +25,12 @@ namespace MiniFacebook.Application.UseCases.Posts
                 return null;
 
             return new PostDto
-            {
-                Id = post.Id.Value,
-                Author = post.Author.FullName,
-                Content = post.Content,
-                CreatedAt = post.CreatedAt
-            };
+            (
+                post.Id.Value,
+                post.Content,
+                new AuthorDto(post.Author.FullName,post.Author.Email),
+                post.CreatedAt
+            );
         }
     }
 }

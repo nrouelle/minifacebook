@@ -1,7 +1,6 @@
 ﻿using MiniFacebook.Application;
 using MiniFacebook.Application.DTOs.Auth;
-using MiniFacebook.Domain.Entities;
-using MiniFacebook.Domain.Interfaces;
+using MiniFacebook.Application.Interfaces.Users;
 
 namespace MiniFacebook.API.Endpoints
 {
@@ -11,31 +10,28 @@ namespace MiniFacebook.API.Endpoints
         {
             var group = app.MapGroup("/api/auth");
 
-            group.MapPost("/register", async (UserRegisterDto dto, IUserRepository userRepository) =>
+            group.MapPost("/register", async (UserRegisterDto dto, IRegisterUser registerUser) =>
             {
-                var user = new User
-                (
-                    dto.FullName,
-                    dto.Email,
-                    BCrypt.Net.BCrypt.HashPassword(dto.Password)
-                );
+                var userCreated = await registerUser.ExecuteAsync(dto.FullName, dto.Email, dto.Password);
 
-                await userRepository.CreateAsync(user);
-
-                return Results.Ok(new { user.FullName, user.Email });
+                return Results.Ok(new { userCreated.FullName, userCreated.Email });
             });
 
             group.MapPost("/login", async (
-                UserLoginDto dto, 
-                IUserRepository userRepository,
+                UserLoginDto dto,
+                ILogUserIn logUserIn,
                 IJwtTokenGenerator tokenGen) =>
             {
-                var user = await userRepository.GetByEmailAsync(dto.Email);
-                if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-                    return Results.Unauthorized();
+                try
+                {
+                    var response = await logUserIn.ExecuteAsync(dto);
 
-                var token = tokenGen.GenerateToken(user);
-                return Results.Ok(new { token });
+                    return Results.Ok(new { response });
+                }
+                catch (Exception)
+                {
+                    return Results.NotFound();
+                }
             });
         }
     }

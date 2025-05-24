@@ -1,14 +1,15 @@
 ﻿using MiniFacebook.Application.DTOs.Subscriptions;
+using MiniFacebook.Application.Interfaces;
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Subscriptions
 {
-    public class SubscribeUser
+    public class SubscribeUser: ISubscribeUser
     {
-        private readonly ISubscribeRepository subscribeRepository;
+        private readonly ISubscriptionRepository subscribeRepository;
 
-        public SubscribeUser(ISubscribeRepository subscribeRepository)
+        public SubscribeUser(ISubscriptionRepository subscribeRepository)
         {
             this.subscribeRepository = subscribeRepository;
         }

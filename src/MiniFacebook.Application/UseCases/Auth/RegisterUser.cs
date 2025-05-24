@@ -1,9 +1,10 @@
-﻿using MiniFacebook.Domain.Entities;
+﻿using MiniFacebook.Application.Interfaces.Users;
+using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Auth
 {
-    public class RegisterUser
+    public class RegisterUser: IRegisterUser
     {
         private readonly IUserRepository _userRepository;
 

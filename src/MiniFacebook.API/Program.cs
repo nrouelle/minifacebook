@@ -9,6 +9,12 @@ using System.Text;
 using MiniFacebook.API;
 using Microsoft.OpenApi.Models;
 using MiniFacebook.Application;
+using MiniFacebook.Application.Interfaces.Users;
+using MiniFacebook.Application.UseCases.Auth;
+using MiniFacebook.Application.Interfaces;
+using MiniFacebook.Application.UseCases.Posts;
+using MiniFacebook.Application.UseCases.Subscriptions;
+using MiniFacebook.Application.UseCases.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,7 +98,17 @@ builder.Services.AddCors(options =>
 // DI
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
+builder.Services.AddScoped<ICheckUserExists, CheckUserExists>();
+builder.Services.AddScoped<ILogUserIn, LoginUser>();
+builder.Services.AddScoped<IRegisterUser, RegisterUser>();
+builder.Services.AddScoped<ICreatePost, CreatePost>();
+builder.Services.AddScoped<IGetAllPosts, GetAllPosts>();
+builder.Services.AddScoped<IGetPost, GetPost>();
+builder.Services.AddScoped<ISubscribeUser, SubscribeUser>();
+builder.Services.AddScoped<IValidateSubscription, ValidateSubscription>();
 
 
 var app = builder.Build();

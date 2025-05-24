@@ -1,6 +1,6 @@
 ﻿using MiniFacebook.Application.DTOs.Posts;
-using MiniFacebook.Domain.Entities;
-using MiniFacebook.Domain.Interfaces;
+using MiniFacebook.Application.Interfaces;
+using MiniFacebook.Application.Interfaces.Users;
 
 namespace MiniFacebook.API.Endpoints
 {
@@ -12,32 +12,22 @@ namespace MiniFacebook.API.Endpoints
 
             group.RequireAuthorization();
 
-            group.MapGet("/", async (IPostRepository postRepository) =>
+            group.MapGet("/", async (IGetAllPosts getAllPosts) =>
             {
-                var posts = await postRepository.GetAllAsync();
+                var posts = await getAllPosts.ExecuteAsync();
 
                 return Results.Ok(posts);
             });
 
-            group.MapPost("/", async (CreatePostDto dto, IPostRepository postRepository, IUserRepository userRepository) =>
+            group.MapPost("/", async (CreatePostDto dto, ICreatePost createPost, ICheckUserExists checkUserExists) =>
             {
-                var author = await userRepository.GetByEmailAsync(dto.AuthorEmail);
-                if(author == null) 
+                var authorExists = await checkUserExists.ExecuteAsync(dto.AuthorEmail);
+                if(!authorExists) 
                     return Results.NotFound("User not found");
                 
-                var post = new Post(author, dto.Content);
-                
-                await postRepository.AddAsync(post);
+                var postCreated = await createPost.ExecuteAsync(dto);
 
-                return Results.Created($"/api/posts/{post.Id}", post);
-            });
-
-            group.MapDelete("/{id:guid}", async (Guid id, IPostRepository postRepository) =>
-            {
-                var post = await postRepository.GetByIdAsync(id);
-                if (post == null) return Results.NotFound();
-                await postRepository.DeleteAsync(post);
-                return Results.NoContent();
+                return Results.Created($"/api/posts/{postCreated.Id}", postCreated);
             });
         }
     }

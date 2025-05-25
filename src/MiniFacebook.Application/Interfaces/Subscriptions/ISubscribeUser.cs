@@ -1,6 +1,6 @@
 ﻿using MiniFacebook.Application.DTOs.Subscriptions;
 
-namespace MiniFacebook.Application.Interfaces
+namespace MiniFacebook.Application.Interfaces.Subscriptions
 {
     public interface ISubscribeUser
     {

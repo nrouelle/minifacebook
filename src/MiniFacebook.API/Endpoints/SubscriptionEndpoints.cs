@@ -1,5 +1,5 @@
 ﻿using MiniFacebook.Application.DTOs.Subscriptions;
-using MiniFacebook.Application.Interfaces;
+using MiniFacebook.Application.Interfaces.Subscriptions;
 using MiniFacebook.Application.Interfaces.Users;
 using MiniFacebook.Application.UseCases.Subscriptions;
 using MiniFacebook.Domain.Entities;

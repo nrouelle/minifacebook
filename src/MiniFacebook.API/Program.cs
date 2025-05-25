@@ -11,10 +11,11 @@ using Microsoft.OpenApi.Models;
 using MiniFacebook.Application;
 using MiniFacebook.Application.Interfaces.Users;
 using MiniFacebook.Application.UseCases.Auth;
-using MiniFacebook.Application.Interfaces;
 using MiniFacebook.Application.UseCases.Posts;
 using MiniFacebook.Application.UseCases.Subscriptions;
 using MiniFacebook.Application.UseCases.Users;
+using MiniFacebook.Application.Interfaces.Posts;
+using MiniFacebook.Application.Interfaces.Subscriptions;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,6 @@
 ﻿using MiniFacebook.Application.DTOs.Posts;
 
-namespace MiniFacebook.Application.Interfaces
+namespace MiniFacebook.Application.Interfaces.Posts
 {
     public interface IGetPost
     {

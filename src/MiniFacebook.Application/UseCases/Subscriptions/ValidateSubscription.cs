@@ -1,4 +1,4 @@
-﻿using MiniFacebook.Application.Interfaces;
+﻿using MiniFacebook.Application.Interfaces.Subscriptions;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Subscriptions

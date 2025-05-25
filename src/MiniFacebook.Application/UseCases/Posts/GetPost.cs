@@ -1,5 +1,5 @@
 ﻿using MiniFacebook.Application.DTOs.Posts;
-using MiniFacebook.Application.Interfaces;
+using MiniFacebook.Application.Interfaces.Posts;
 using MiniFacebook.Domain.Interfaces;
 
 namespace MiniFacebook.Application.UseCases.Posts

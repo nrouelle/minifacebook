@@ -8,6 +8,6 @@ namespace MiniFacebook.Domain.Interfaces
         Task<Subscription?> GetSubscriptionAsync(string subscriberEmail, string subscribedToEmail);
         Task SubscribeAsync(Subscription subscription);
         bool SubscriptionExists(string subscriberEmail, string subscribedToEmail);
-        Task UpdateSubscriptionAsync(object subscription);
+        Task UpdateSubscriptionAsync(Subscription subscription);
     }
 }

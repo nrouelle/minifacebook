@@ -25,4 +25,22 @@ public static class PostMapper
             entity.CreatedAt
         );
     }
+
+    public static class SubscriptionMapper
+    {
+        public static SubscriptionEntity ToEntity(Subscription subscription)
+        {
+            return new SubscriptionEntity
+            {
+                SubscribedTo = subscription.SubscribedToEmail,
+                Subscriber = subscription.SubscriberEmail,
+                IsValidated = subscription.IsValidated,
+            };
+        }
+
+        public static Subscription ToDomain(SubscriptionEntity entity)
+        {
+            return new Subscription(entity.SubscriberEmail, entity.SubscribedToEmail);
+        }
+    }
 }

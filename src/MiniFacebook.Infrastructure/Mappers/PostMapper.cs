@@ -3,7 +3,7 @@ using MiniFacebook.Infrastructure.Data.Models;
 
 namespace MiniFacebook.Infrastructure.Mappers;
 
-public static class PostMapper
+public static partial class PostMapper
 {
     public static PostEntity ToEntity(Post post)
     {

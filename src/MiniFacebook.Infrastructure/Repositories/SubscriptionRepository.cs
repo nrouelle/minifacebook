@@ -2,7 +2,7 @@
 using MiniFacebook.Domain.Entities;
 using MiniFacebook.Domain.Interfaces;
 using MiniFacebook.Infrastructure.Data;
-using MiniFacebook.Infrastructure.Data.Models;
+using MiniFacebook.Infrastructure.Mappers;
 
 namespace MiniFacebook.Infrastructure.Repositories
 {
@@ -15,31 +15,41 @@ namespace MiniFacebook.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task<Subscription?> GetSubscriptionAsync(string subscriberEmail, string subscribedToEmail)
+        public async Task<Subscription?> GetSubscriptionAsync(string subscriberEmail, string subscribedToEmail)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Subscriptions
+                .FirstOrDefaultAsync(s => s.SubscribedToEmail == subscribedToEmail
+                    && s.SubscriberEmail == subscriberEmail);
+            if (entity == null) {
+                return null;
+            }
+            return SubscriptionMapper.ToDomain(entity);
         }
 
-        public Task SubscribeAsync(Subscription subscription)
+        public async Task SubscribeAsync(Subscription subscription)
         {
-            throw new NotImplementedException();
+            var entity = SubscriptionMapper.ToEntity(subscription);
+            await _context.Subscriptions.AddAsync(entity);
         }
 
         public bool SubscriptionExists(string subscriberEmail, string subscribedToEmail)
         {
-            throw new NotImplementedException();
+            return _context.Subscriptions
+                .Any(s => s.SubscribedToEmail == subscribedToEmail 
+                    && s.SubscriberEmail == subscriberEmail);
         }
 
-        public Task UpdateSubscriptionAsync(object subscription)
+        public Task UpdateSubscriptionAsync(Subscription subscription)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<Subscription>> GetPendingSubscriptionsAsync(string subscribedToEmail)
+        public async Task<IEnumerable<Subscription>> GetPendingSubscriptionsAsync(string subscribedToEmail)
         {
-            return await _context.Subscriptions
+            var entities = await _context.Subscriptions
                 .Where(s => s.SubscribedToEmail == subscribedToEmail && !s.IsValidated)
                 .ToListAsync();
+            return entities.Select(SubscriptionMapper.ToDomain);
         }
 
     }
